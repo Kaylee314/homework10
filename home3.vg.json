@@ -1,0 +1,56 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": { "text": "Top 10 Wine consumption Country" },
+      "data": {
+          "url": "https://raw.githubusercontent.com/Kaylee314/3179_testrepo/main/HappinessAlcoholConsumption.csv",
+          "format": {"type": "csv", "parse": {"Spirit_PerCapita": "number"}}
+      },
+          "transform": [
+        {
+            "window": [
+            {
+                 "op": "rank",
+                 "as": "rank"
+        }],
+        "sort": [{ 
+            "field": "Spirit_PerCapita", 
+            "order": "descending" }]
+      }, {
+        "filter": "datum.rank <= 10"
+      }
+    ],
+     "encoding": {
+          "y": { "field": "Country", "type": "nominal",
+          "sort": {"field": "Spirit_PerCapita", "order": "descending"}
+      },
+          "x": { "field": "Spirit_PerCapita", "type": "quantitative"}
+      },
+    "layer": [{
+      "mark": "bar",
+      "encoding": {
+        "color": {
+          "field": "Spirit_PerCapita",
+          "type": "quantitative",
+          "title": null
+        }
+      }
+    }, {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "xOffset": -4,
+        "aria": false
+      },
+      "encoding": {
+        "text": {"field": "Spirit_PerCapita", "type": "quantitative"},
+        "color": {
+          "condition": {
+            "test": {"field": "Spirit_PerCapita", "gt": 10},
+            "value": "white"
+          },
+          "value": "black"
+        }
+      }
+    }]
+  }
+  

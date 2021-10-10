@@ -1,0 +1,66 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "height": 500,
+    "width": 500,
+    "title": "Wine Consumption vs Happiness Score",
+    "data": {
+      "url": "https://raw.githubusercontent.com/Kaylee314/3179_testrepo/main/HappinessAlcoholConsumption.csv"
+    },
+    "selection": {
+      "continent_selection": {
+        "type": "multi", "fields": ["Region"], "bind": "legend"
+      }
+    },
+    "transform":[
+      {"filter": "datum.Wine_PerCapita > 10"},
+      {"filter": "datum.HappinessScore > 0"}
+    ],
+    "mark": "point",
+    "encoding": {
+      "x": {
+        "field": "HappinessScore",
+        "type": "quantitative",
+        "title":"wine consumed",
+        "axis": { "tickCount": 7},
+        "scale": {"type": "linear",  "domain":[1, 10]}
+      },
+      "y": {
+        "field": "Wine_PerCapita",
+        "type": "quantitative",
+        "axis": { "tickCount": 6},
+        "scale": {"type": "linear", "domain":[1, 400]}
+      },
+      "size": {"field": "Wine_PerCapita", "type": "quantitative",  "scale": {"range": [10, 400]}
+  },
+      "fill": {"field": "Region",  "type": "nominal","scale": {"domain":["Western Europe",
+            "North America",
+            "Australia and New Zealand",
+            "Middle East and Northern Africa",
+            "Latin America and Caribbean",
+            "Southeastern Asia",
+            "Central and Eastern Europe",
+            "Eastern Asia",
+            "Sub-Saharan Africa"], "range": ["#e41a1c", "#984ea3", "#ff7f00", "#a6cee3", "#377eb8", "#a65628","#8dd3c7","#ffffb3", "#bebada"]}},
+      "color": {"field": "Region", "type": "nominal","scale": {"domain":["Western Europe",
+            "North America",
+            "Australia and New Zealand",
+            "Middle East and Northern Africa",
+            "Latin America and Caribbean",
+            "Southeastern Asia",
+            "Central and Eastern Europe",
+            "Eastern Asia",
+            "Sub-Saharan Africa"],"range": ["#e41a1c", "#984ea3", "#ff7f00", "#a6cee3", "#377eb8", "#a65628","#8dd3c7","#ffffb3", "#bebada"]}
+      },
+      "opacity": {
+        "condition": {"selection": "continent_selection", "value": 0.8},
+        "value": 0.2
+      },
+      "tooltip": [
+        {"field": "Country", "type": "nominal"},
+        {"field": "Region", "type": "nominal"},
+        {"field": "HappinessScore", "type": "quantitative", "format": ","},
+        {"field": "Wine_PerCapita", "type": "quantitative", "format": ","}
+      ]
+  
+    }
+  }
